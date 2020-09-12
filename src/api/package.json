@@ -1,0 +1,27 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "this for passenic",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/github.com/konlanz.git"
+  },
+  "author": "Kodelan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/github.com/konlanz/issues"
+  },
+  "homepage": "https://github.com/github.com/konlanz#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "helmet": "^3.18.0",
+    "mongoose": "^5.5.1"
+  }
+}
