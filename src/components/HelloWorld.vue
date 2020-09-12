@@ -1,58 +1,130 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div class="list row">
+    <div class="col-md-8">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search by title"
+          v-model="title"/>
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button"
+            @click="searchTitle"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h4>Tutorials List</h4>
+      <ul class="list-group">
+        <li class="list-group-item"
+          :class="{ active: index == currentIndex }"
+          v-for="(tutorial, index) in tutorials"
+          :key="index"
+          @click="setActiveTutorial(tutorial, index)"
+        >
+          {{ tutorial.title }}
+        </li>
+      </ul>
+
+      <button class="m-3 btn btn-sm btn-danger" @click="removeAllTutorials">
+        Remove All
+      </button>
+    </div>
+    <div class="col-md-6">
+      <div v-if="currentTutorial">
+        <h4>Tutorial</h4>
+        <div>
+          <label><strong>Title:</strong></label> {{ currentTutorial.title }}
+        </div>
+        <div>
+          <label><strong>Description:</strong></label> {{ currentTutorial.description }}
+        </div>
+        <div>
+          <label><strong>Status:</strong></label> {{ currentTutorial.published ? "Published" : "Pending" }}
+        </div>
+
+        <a class="badge badge-warning"
+          :href="'/tutorials/' + currentTutorial.id"
+        >
+          Edit
+        </a>
+      </div>
+      <div v-else>
+        <br />
+        <p>Please click on a Tutorial...</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import TutorialDataService from "../services/TutorialDataService";
+
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
+  name: "tutorials-list",
+  data() {
+    return {
+      tutorials: [],
+      currentTutorial: null,
+      currentIndex: -1,
+      title: ""
+    };
+  },
+  methods: {
+    retrieveTutorials() {
+      TutorialDataService.getAll()
+        .then(response => {
+          this.tutorials = response.data;
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+
+    refreshList() {
+      this.retrieveTutorials();
+      this.currentTutorial = null;
+      this.currentIndex = -1;
+    },
+
+    setActiveTutorial(tutorial, index) {
+      this.currentTutorial = tutorial;
+      this.currentIndex = index;
+    },
+
+    removeAllTutorials() {
+      TutorialDataService.deleteAll()
+        .then(response => {
+          console.log(response.data);
+          this.refreshList();
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    
+    searchTitle() {
+      TutorialDataService.findByTitle(this.title)
+        .then(response => {
+          this.tutorials = response.data;
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
+  },
+  mounted() {
+    this.retrieveTutorials();
   }
-}
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+<style>
+.list {
+  text-align: left;
+  max-width: 750px;
+  margin: auto;
 }
 </style>
