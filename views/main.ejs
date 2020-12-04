@@ -1,0 +1,781 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Mellow FM</title>
+  <!-- Scripts -->
+  <script src="./js/app.js" defer></script>
+  <!--Logo-->
+  <link rel="icon" href="./images/logo.png" type="image/png" sizes="32x32">
+
+  <!-- Styles -->
+  <link href=".stylesheets/app.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <!-- Bootstrap core CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+
+     <style>
+  html,
+  body {
+      height: 100% !important;
+      width: 100% !important;
+      font-family: 'Roboto';
+  }
+
+  #video-header {
+  width: 100%;
+  height: auto;
+  z-index: -10;
+  margin-top: 0;
+  right: 0;
+  left: 0;
+  padding-left: 0;
+  position: relative;
+}
+
+.about-page,
+.artists-page{
+  background: #000;
+  color: #fff;
+}
+
+#about-header{
+  background: url('/images/apple.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 400px;
+  z-index: -10;
+  margin-top: 0;
+  right: 0;
+  left: 0;
+  padding-left: 0;
+  position: relative;
+}
+
+#indexContainer1{
+  background: url('/images/apple.jpg');
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -10;
+  height: auto;
+}
+
+#indexContainer2,
+#indexContainer3,
+#indexContainer4,
+#indexContainer5,
+#artistContainer{
+  height: 390px !important;
+  padding: 0 !important;
+}
+
+#indexContainer2:hover > a > h2,
+#indexContainer3:hover > a >h2,
+#indexContainer4:hover > a >h2,
+#indexContainer5:hover > a >h2,
+#artistContainer:hover > h4{
+  top: 18rem !important;
+}
+
+
+.indexContainerText,
+.artistContainerText{
+  position: absolute;
+  z-index: 15;
+  top: 21.8rem;
+  left: 4%;
+}
+
+
+.index-image,
+.artist-image{
+  position: relative;
+  width: 100%;
+  height: 390px;
+  object-fit: cover;
+}
+
+#video-writings,
+#about-writings {
+  position: absolute;
+  /* padding-top: 13rem; */
+  z-index: 15;
+}
+
+#artistsVideo_header{
+  width: 100%;
+  height: 500px;
+  z-index: -10;
+  margin-top: 0;
+  right: 0;
+  left: 0;
+  padding-left: 0;
+}
+
+.artists-video{
+  height: 500px;
+  object-fit: cover;
+  width: 100%
+}
+
+.dark-overlay {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.2);
+  top: 0;
+  left: 0;
+  bottom: 0;
+  height: auto;
+  width: 100%;
+  z-index: 5;
+}
+
+.artist-overlay {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.3);
+  top: 0;
+  left: 0;
+  bottom: 0;
+  height: 500px;
+  width: 100%;
+  z-index: 5;
+}
+
+.event-overlay {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  top: 0;
+  left: 0;
+  bottom: 0;
+  height: auto;
+  width: 100%;
+  z-index: 5;
+}
+
+#logReg_video{
+      display: none !important;
+  }
+
+  .streaming-title:hover{
+      text-decoration: underline;
+  }
+
+.logo-holder {
+  position: absolute;
+  left: 1%;
+  z-index: 1002;
+  top: 3px;
+}
+
+.logo-holder img {
+  height: 70px;
+}
+
+.nav-section {
+  position: fixed;
+  z-index: 1001;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 0px;
+}
+
+.nav-section img {
+  height: 35px;
+  position: absolute;
+}
+
+.nav-section .nav-lists {
+  padding-left: 0px;
+  list-style: none;
+  margin-bottom: 0px;
+}
+
+.nav-section .nav-lists li {
+  display: inline-block;
+  margin: 0px 10px;
+}
+
+.nav-section .nav-lists li a {
+  font-family: 'Huge', sans-serif;
+  color: #fff;
+  font-size: 16px;
+  opacity: 0;
+  -webkit-transition-property: opacity transform;
+  -o-transition-property: opacity transform;
+  -moz-transition-property: opacity transform;
+  transition-property: opacity transform;
+  -webkit-transition-duration: .3s !important;
+  -moz-transition-duration: .3s !important;
+  -o-transition-duration: .3s !important;
+  transition-duration: .3s !important;
+  -webkit-transition-timing-function: ease !important;
+  -moz-transition-timing-function: ease !important;
+  -o-transition-timing-function: ease !important;
+  transition-timing-function: ease !important
+}
+
+/* .nav-lists.is-active-now li{
+  display: inline-block !important;
+} */
+
+.nav-lists.is-active-now li > a {
+  opacity: 1;
+  -webkit-transform: translateX(-10px);
+  -moz-transform: translateX(-10px);
+  -ms-transform: translateX(-10px);
+  -o-transform: translateX(-10px);
+  transform: translateX(-10px);
+}
+
+.nav-lists.is-active-now li:nth-child(6) a {
+  webkit-transition-delay: .1s;
+  -moz-transition-delay: .1s;
+  -o-transition-delay: .1s;
+  transition-delay: .1s;
+}
+
+.nav-lists.is-active-now li:nth-child(5) a {
+  webkit-transition-delay: .1s;
+  -moz-transition-delay: .1s;
+  -o-transition-delay: .1s;
+  transition-delay: .1s;
+}
+
+.nav-lists.is-active-now li:nth-child(4) a {
+  webkit-transition-delay: .1s;
+  -moz-transition-delay: .1s;
+  -o-transition-delay: .1s;
+  transition-delay: .1s;
+}
+
+.nav-lists.is-active-now li:nth-child(3) a {
+  webkit-transition-delay: .1s;
+  -moz-transition-delay: .1s;
+  -o-transition-delay: .1s;
+  transition-delay: .2s;
+}
+
+.nav-lists.is-active-now li:nth-child(2) a {
+  webkit-transition-delay: .1s;
+  -moz-transition-delay: .1s;
+  -o-transition-delay: .1s;
+  transition-delay: .3s;
+}
+
+.nav-lists.is-active-now li:nth-child(1) a {
+  webkit-transition-delay: .1s;
+  -moz-transition-delay: .1s;
+  -o-transition-delay: .1s;
+  transition-delay: .4s;
+}
+
+.menu-icon {
+  width: 40px;
+  height: 50px;
+  padding: 0px;
+  cursor: pointer;
+  z-index: 10;
+  float: right;
+}
+
+.menu-icon span {
+  position: relative;
+  top: 25px;
+  display: block;
+  width: 20px;
+  height: 3px;
+  background: #fff;
+}
+
+.menu-icon span:before,
+.menu-icon span:after {
+  position: absolute;
+  content: '';
+}
+
+.menu-iconspan,
+.menu-icon span:before,
+.menu-icon span:after {
+  width: 40px;
+  height: 3px;
+  background-color: #fff;
+  display: block;
+}
+
+.menu-icon span:before {
+  margin-top: -12px;
+}
+
+.menu-icon span:after {
+  margin-top: 12px;
+}
+
+.menu-icon span {
+  -webkit-transition-duration: 0s;
+  transition-duration: 0s;
+  -webkit-transition-delay: 0.2s;
+  transition-delay: 0.2s;
+}
+
+.hover span {
+  background-color: rgba(0, 0, 0, 0.0);
+  -webkit-transition-delay: 0.2s;
+  transition-delay: 0.2s;
+}
+
+.menu-icon span:before {
+  -webkit-transition-property: margin, -webkit-transform;
+  transition-property: margin, transform;
+  -webkit-transition-duration: 0.2s;
+  transition-duration: 0.2s;
+  -webkit-transition-delay: 0.2s, 0s;
+  transition-delay: 0.2s, 0s;
+}
+
+.hover span:before {
+  margin-top: 0;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -webkit-transition-delay: 0s, 0.2s;
+  transition-delay: 0s, 0.2s;
+}
+
+.menu-icon span:after {
+  -webkit-transition-property: margin, -webkit-transform;
+  transition-property: margin, transform;
+  -webkit-transition-duration: 0.2s;
+  transition-duration: 0.2s;
+  -webkit-transition-delay: 0.2s, 0s;
+  transition-delay: 0.2s, 0s;
+}
+
+.hover span:after {
+  margin-top: 0;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-transition-delay: 0s, 0.2s;
+  transition-delay: 0s, 0.2s;
+}
+
+.drawer {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  max-width: 300px;
+  width: 100%;
+  background: rgb(23, 23, 24);
+  z-index: 1000;
+  color: #000;
+  padding: 60px 40px;
+  transition: 0.4s ease-out;
+  right: -100%;
+  transition-delay: 0.2s;
+}
+
+.drawer.open-drawer {
+  right: 0;
+}
+
+
+.drawer p {
+  font-size: 14px;
+  color: #e9297c;
+  margin-bottom: 7px;
+  margin-left: 10px;
+  font-family: 'Huge', sans-serif;
+}
+
+#sidebar{
+  display: none;
+}
+
+
+#sidebar.active{
+  display: block;
+  position: fixed;
+  overflow-y: auto;
+  background:#1c2331;
+  right: 0;
+  padding-top: 5rem;
+min-width: 250px;
+  max-width: 250px;
+  height: 100vh;
+  padding: 60px 40px;
+  transition: 0.4s ease-out;
+  transition-delay: 0.2s;
+box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+  z-index: 9001;
+  }
+
+  .contactlink:hover{
+      color:#ff4444 !important;
+  }
+
+  /* .contactlink hr:hover{
+      background: #CC0000 !important;
+  } */
+
+  .contact-page  {
+      top: 0;
+      left: 0;
+      bottom: 0;
+      height: 100%;
+      background: #000;
+  }
+
+  .fab {
+      color: #fff !important;
+  }
+
+  .fab:hover{
+          color: #ff4444 !important;
+      }
+
+  .hr{
+
+  }
+
+  #pagepiling{
+      color: #000;
+  }
+
+
+  .streaming-page{
+      width: 100%;
+      height: 100%;
+      bottom: 0;
+      background: #000;
+  }
+
+  #work{
+      display: none !important;
+  }
+
+
+  @media (min-width: 768px) {
+  /****Additional css*****/
+  #sidebar{
+      display: none !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+
+/***Additional css*****/
+#video-writings{
+  padding-top: 0rem !important;
+  border: 1px red solid;
+  font-size: 2px !important;
+}
+}
+
+
+@media (max-width: 767.98px) {
+
+  /*****additional css*****/
+  #sidebar{
+      z-index: 100 !important;
+  }
+
+  .menu-icon{
+      z-index: 900 !important;
+  }
+
+  #video-header{
+      height: 730px;
+  }
+
+  .index_video{
+      height: 730px;
+      object-fit: cover;
+  }
+
+  #video-writings{
+      font-size: 30px;
+      padding-top: 19rem !important;
+  }
+
+  .col-lg-12.pt-5.pb-5.pl-5{
+      padding-left: 13px !important;
+  }
+
+  /***About page*****/
+  #about-writings{
+      padding-top: 10rem;
+  }
+
+  #about-writings h1{
+      font-size: 54px !important;
+  }
+
+  /***Artists page****/
+  .artistLine{
+      margin-left: 35% !important;
+  }
+
+  #artistImages{
+      padding-left: 5px;
+  }
+
+  /***watch live****/
+  #main-videoRow{
+      height: auto !important;
+      margin-right: 0 !important;
+      margin-left: 0 !important;
+  }
+
+  #otherStream{
+      padding-left: 1rem !important;
+  }
+
+  .row.justify-content-center > .col-lg-6.px-0
+
+  .mb-5  {
+      margin-left: 0 !important;
+  }
+}
+
+@media (min-width: 992px) {
+  #video-writings{
+      padding-top: 20% !important;
+  }
+
+  #about-writings{
+      padding-top: 7%;
+  }
+
+  .text-white.font-weight-bold{
+      padding-top: 60px;
+      padding-left: 60px;
+      padding-bottom: 30px;
+  }
+
+  .contactlink{
+      margin-left: 60px;
+  }
+
+  .mb-5 {
+      margin-left: 60px !important;
+  }
+}
+
+</style>
+
+</head>
+
+<body>
+  <div id="app">
+    <a href="/" class="logo-holder">
+<img src="./logo1.png" alt="" class="img-fluid">
+</a>
+
+<div class="nav-section" class="text-dark">
+<div class="container-fluid">
+  <div class="row align-items-center">
+    <div class="col-lg-3 col-md-1 col-5">
+      <!-- <img src="images/logo.png" alt="" class="img-fluid"> -->
+    </div>
+
+    <div class="col-lg-9 col-md-11 col-7 d-flex align-items-center pr-md-5">
+      <ul class="nav-lists mr-3 ml-auto d-none d-md-block">
+        <li>
+          <a href="/"><i class="fa fa-home"></i>Home</a>
+        </li>
+
+         </ul>
+
+      <div class="menu-icon ml-auto ml-md-0 sidebarCollapse">
+        <span></span>
+        <p id="menu-hover"></p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+    <nav id="sidebar">
+<ul class="navbar-nav mt-2 mt-lg-0">
+    <li class="nav-item">
+        <a class="nav-link text-white mx-3" href="/">
+            <i class="fa fa-home"></i>
+            Home
+        </a>
+    </li>
+
+</ul>
+<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+
+   
+</ul>
+
+</nav>
+
+            <section class="index-page">
+    <header id="video-header">
+        <div class="container-fluid">
+            <div class="row text-center">
+                <video  class="video-fluid z-depth-1 index_video" autoplay loop controls muted>
+                    <source src="./blackgirl.mp4" type="video/mp4" />
+                </video>
+                <div id="video-writings" class="col-lg-12 col-sm-12">
+                    <h1 class="display-3 font-weight-bold text-white">
+                        <span
+                            class="txt-rotate"
+                            data-period="2000"
+                            data-rotate='[ "Welcome", "Mellow FM", "Positive", "Vibes", "Only" ]'></span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+     
+        <!--Dark Overlay-->
+        <div class="dark-overlay"></div>
+    </header>
+       <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 pt-5 pb-5 pl-5" style="background-color: rgb(26, 23, 23);">
+                <h1 class="text-white font-weight-bold text-center">Welcome to Mellow FM</h1>
+                <p class="text-white">Mellow FM is an online radio station that focuses on positive news only. 
+                    We know our world faces challenges, but in us facing these challenges, 
+                    there are a lot of positive stories we can share. We believe that there's' too much negative news 
+                    in the media that listing to the radio makes you feel like the world is heading toward doom.
+                     We are for anything good. We celebrate the people who do good in changing our world.
+                      We tell their stories because we are everyday people telling
+                     everyday stories of everyday people. At Mellow FM, We believe in positive vibes only.</p>
+              
+
+                    <audio controls > 
+                        <source src="http://stream.zeno.fm/v2nftxmmx4zuv.m3u">
+                        Your browser does not support the audio element.
+                      </audio>
+            </div>
+        </div>
+    </div>
+
+    <!---Footer Starts--->
+        <div class="div container-fluid text-white" style="background-color: #000">
+<div class="row">
+    <div class="footer container">
+        <div class="row py-4">
+            <div class="col-lg-4 text-center">
+            </div>
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4 text-center">
+                <p class="mb-0 font-weight-bold">More comming soon</p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+    <!--Footer Ends--->
+</section>
+</div>
+
+
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+    <script>
+        $(function(){
+            $('.menu-icon').click(function () {
+             $(this).toggleClass('hover');
+            $('.nav-lists').toggleClass('is-active-now');
+            $('.drawer').toggleClass('open-drawer');
+            })
+        });
+
+
+        $(document).ready(function(){
+            // mobile sidebar
+            $('.sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+            });
+        })
+    </script>
+
+    <script>
+        var TxtRotate = function(el, toRotate, period) {
+        this.toRotate = toRotate;
+        this.el = el;
+        this.loopNum = 0;
+        this.period = parseInt(period, 10) || 2000;
+        this.txt = '';
+        this.tick();
+        this.isDeleting = false;
+        };
+
+        TxtRotate.prototype.tick = function() {
+        var i = this.loopNum % this.toRotate.length;
+        var fullTxt = this.toRotate[i];
+
+        if (this.isDeleting) {
+            this.txt = fullTxt.substring(0, this.txt.length - 1);
+        } else {
+            this.txt = fullTxt.substring(0, this.txt.length + 1);
+        }
+
+        this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
+
+        var that = this;
+        var delta = 300 - Math.random() * 100;
+
+        if (this.isDeleting) { delta /= 2; }
+
+        if (!this.isDeleting && this.txt === fullTxt) {
+            delta = this.period;
+            this.isDeleting = true;
+        } else if (this.isDeleting && this.txt === '') {
+            this.isDeleting = false;
+            this.loopNum++;
+            delta = 500;
+        }
+
+        setTimeout(function() {
+            that.tick();
+        }, delta);
+        };
+
+        window.onload = function() {
+        var elements = document.getElementsByClassName('txt-rotate');
+        for (var i=0; i<elements.length; i++) {
+            var toRotate = elements[i].getAttribute('data-rotate');
+            var period = elements[i].getAttribute('data-period');
+            if (toRotate) {
+            new TxtRotate(elements[i], JSON.parse(toRotate), period);
+            }
+        }
+        // INJECT CSS
+        var css = document.createElement("style");
+        css.type = "text/css";
+        css.innerHTML = ".txt-rotate > .wrap { border-right: 0.08em solid #fff }";
+        document.body.appendChild(css);
+        };
+    </script>
+
+</body>
+</html>
